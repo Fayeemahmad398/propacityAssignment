@@ -95,6 +95,10 @@ button {
     border: none;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .one-note {
     padding: 10px;
     border-radius: 10px;
@@ -148,7 +152,24 @@ button {
     justify-content: space-between;
     padding: 3px;
 
+}
 
+.edite-input {
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.edite-input input {
+    height: 25px;
+    border: none;
+    width: 80%;
+    outline: 1px solid grey;
+    border-radius: 3px;
+    padding: 3px;
 
 }
 

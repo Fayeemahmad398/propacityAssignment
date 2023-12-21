@@ -5,15 +5,16 @@ import MainSection from './Components/MainSection';
 import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const [searchTerm, setSearchTerm] = useState([]);
   const [isGrid, setGrid] = useState(false);
 
   return (
-    <div  className='app'>
-      <ToastContainer/>
+    <div className='app'>
+      <ToastContainer />
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} isGrid={isGrid} setGrid={setGrid} />
-      < MainSection isGrid={isGrid} searchTerm={searchTerm}/>
+      < MainSection isGrid={isGrid} searchTerm={searchTerm} />
     </div>
   )
 }

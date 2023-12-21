@@ -7,10 +7,9 @@ import { CiGrid2H } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 
 
-function Navbar({ searchTerm, setSearchTerm, isGrid, setGrid }) {
+function Navbar({ setSearchTerm, isGrid, setGrid }) {
 
 
-    console.log(searchTerm)
     return (
         <div className="navbar">
             <div className="img-box"><img src={logo} alt="" />
@@ -21,10 +20,8 @@ function Navbar({ searchTerm, setSearchTerm, isGrid, setGrid }) {
                     setSearchTerm(e.target.value)
                 }} />
                 <CiSearch className="icon-search" />
-
             </div  >
             <div >
-
                 {
                     !isGrid ? (<CiGrid2H onClick={() => setGrid(true)} className="icons-grids" />) : (<CiGrid41 onClick={() => setGrid(false)} className="icons-grids" />)
 

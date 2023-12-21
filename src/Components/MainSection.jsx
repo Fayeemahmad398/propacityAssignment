@@ -19,7 +19,7 @@ function MainSection({ isGrid, searchTerm }) {
     const [editeColorOfIndex, setediteColorOfIndex] = useState(null);
 
 
-    const [ArrOfNotes, setArrOfNotes] = useState([]);
+    const [ArrOfNotes, setArrOfNotes] = useState([{ title: "default-1", note: "default 1", color: "" }, { title: "default-2", note: "default 2", color: "" }]);
 
     const [newNote, setNewNote] = useState({ title: "", note: "", color: "" });
 
@@ -68,7 +68,7 @@ function MainSection({ isGrid, searchTerm }) {
             localStorage.setItem("allNotes", JSON.stringify([newNote, ...ArrOfNotes,]));
             setNewNote({ title: "", note: "", color: "" });
             setformInputIsOpen(false);
-        }else{
+        } else {
             toast.warn("Please fill title or note atleast");
 
         }
@@ -76,12 +76,14 @@ function MainSection({ isGrid, searchTerm }) {
     }
 
     useEffect(() => {
-        if (JSON.parse(localStorage.getItem("allNotes"))) {
+        if (JSON.parse(localStorage.getItem("allNotes"))?.length > 0) {
             setArrOfNotes(JSON.parse(localStorage.getItem("allNotes")))
         } else {
             localStorage.setItem("allNotes", JSON.stringify(ArrOfNotes))
         }
     }, []);
+
+
 
     useEffect(() => {
         let CopyData = JSON.parse(localStorage.getItem("allNotes"));
@@ -89,9 +91,6 @@ function MainSection({ isGrid, searchTerm }) {
         setArrOfNotes(CopyData.filter((obj) => {
             return obj.title.toLowerCase().includes(searchTerm) || obj.note.toLowerCase().includes(searchTerm)
         }))
-
-
-
     }, [searchTerm])
 
 
@@ -269,9 +268,9 @@ function MainSection({ isGrid, searchTerm }) {
                 aria-describedby="modal-modal-description"
             >
 
-                <Box sx={style}>
-                    <input type="text" value={editeObj?.title} placeholder="Title" onChange={(e) => setEditeObj({ ...editeObj, title: e.target.value })} />
-                    <input type="text" placeholder="Note" value={editeObj?.note} onChange={(e) => setEditeObj({ ...editeObj, note: e.target.value })} />
+                <Box sx={style} className="edite-input">
+                    <input className="edite-input" type="text" value={editeObj?.title} placeholder="Title" onChange={(e) => setEditeObj({ ...editeObj, title: e.target.value })} />
+                    <input className="edite-input" type="text" placeholder="Note" value={editeObj?.note} onChange={(e) => setEditeObj({ ...editeObj, note: e.target.value })} />
                     <button onClick={handleSaveChanges} >Save changes</button>
                     <button onClick={handleCloseModalOfEdite}>cancel</button>
                 </Box>
@@ -295,7 +294,7 @@ function MainSection({ isGrid, searchTerm }) {
 
                         {
                             arrOfColor.map((col) => {
-                                return <div style={{ background: `${col}`, height: "20px", width: "20px", borderRadius: "10px" }}
+                                return <div style={{ background: `${col}`, height: "20px", width: "20px", borderRadius: "10px", cursor: "pointer" }}
                                     onClick={(e) => handleColorChange(e, col)}
                                 >
 
@@ -325,7 +324,7 @@ function MainSection({ isGrid, searchTerm }) {
                     <div className="color-picker-box">
                         {
                             arrOfColor.map((col) => {
-                                return <div style={{ background: `${col}`, height: "23px", width: "23px", borderRadius: "12px", border: "2px solid yellow" }}
+                                return <div style={{ background: `${col}`, height: "23px", width: "23px", borderRadius: "12px", border: "2px solid yellow", cursor: "pointer" }}
                                     onClick={() => {
                                         console.log("changepicker")
                                         setNewNote({ ...newNote, color: col })
