@@ -174,7 +174,6 @@ function MainSection({ isGrid, searchTerm }) {
     function handleCloseModalOfColorAssign() {
         setColorIsOpenForAssign(false)
     }
-    { console.log(editeColorOfIndex, newNote) }
     return (
         <div className="main">
             <div className="form-box">
@@ -251,7 +250,7 @@ function MainSection({ isGrid, searchTerm }) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} className="delete-modal">
                     <h4 style={{ margin: "5px" }}>Are you sure ? You want to delete this note !</h4>
                     <button onClick={DeleteNote}>yes</button>
                     <button onClick={NoNeedToDeleteNote}>No</button>
@@ -261,6 +260,7 @@ function MainSection({ isGrid, searchTerm }) {
 
 
             {/* Modal for  edite note */}
+
             <Modal
                 open={FormOfEditeIsOpen}
                 onClose={handleCloseModalOfEdite}
@@ -268,17 +268,17 @@ function MainSection({ isGrid, searchTerm }) {
                 aria-describedby="modal-modal-description"
             >
 
-                <Box sx={style} className="edite-input">
+                <Box sx={style} className="edite-input modal-edite-delete">
                     <input className="edite-input" type="text" value={editeObj?.title} placeholder="Title" onChange={(e) => setEditeObj({ ...editeObj, title: e.target.value })} />
                     <input className="edite-input" type="text" placeholder="Note" value={editeObj?.note} onChange={(e) => setEditeObj({ ...editeObj, note: e.target.value })} />
-                    <button onClick={handleSaveChanges} >Save changes</button>
+                    <button onClick={handleSaveChanges} className="save-changes" >Save changes</button>
                     <button onClick={handleCloseModalOfEdite}>cancel</button>
                 </Box>
 
             </Modal>
 
 
-            {/* modal for edite color for each note */}
+            {/* modal for edite-color for each note */}
             <Modal
                 open={ColorIsOpen}
                 onClose={handleCloseModalOfColor}
@@ -287,6 +287,7 @@ function MainSection({ isGrid, searchTerm }) {
             >
 
                 <Box sx={style} open={ColorIsOpen}
+                className="color-picker-box"
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description">
                     <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
@@ -318,7 +319,7 @@ function MainSection({ isGrid, searchTerm }) {
 
 
                 {/* Color picker for Assign color first time */}
-                <Box sx={style}
+                <Box sx={style} className="color-picker-box"
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description">
                     <div className="color-picker-box">

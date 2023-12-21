@@ -215,6 +215,15 @@ button:hover {
         width: 100%;
     }
 
+    .delete-modal {
+        width: 93% !important;
+    }
+
+    .modal-edite-delete {
+        width: 93% !important;
+
+    }
+
 
 }
 
@@ -231,8 +240,16 @@ button:hover {
     }
 
     button {
-        width: 40px;
+        width: 60px;
 
+    }
+
+    .save-changes {
+        width: 90px;
+    }
+
+    .color-picker-box {
+        width: 93% !important;
     }
 
 }
