@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
+
 import "../Style/navbar.css"
 import logo from "../assets/keepimg.jpg"
 import { CiGrid41 } from "react-icons/ci";
@@ -8,8 +9,6 @@ import { CiSearch } from "react-icons/ci";
 
 
 function Navbar({ setSearchTerm, isGrid, setGrid }) {
-
-
     return (
         <div className="navbar">
             <div className="img-box"><img src={logo} alt="" />
@@ -24,7 +23,6 @@ function Navbar({ setSearchTerm, isGrid, setGrid }) {
             <div >
                 {
                     !isGrid ? (<CiGrid2H onClick={() => setGrid(true)} className="icons-grids" />) : (<CiGrid41 onClick={() => setGrid(false)} className="icons-grids" />)
-
                 }
             </div>
 

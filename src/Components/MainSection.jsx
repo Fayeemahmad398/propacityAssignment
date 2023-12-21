@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
+
 import { Box, Modal, } from "@mui/material";
+
 import { useEffect, useState } from "react"
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 
 function MainSection({ isGrid, searchTerm }) {
-    const arrOfColor = ["#e2f6d3", "#fff8b8", "#d3bfdb", "#a142f4", "#b4ddd3", "#9971ed"];
+    const arrOfColor = ["#e2f6d3", "#fff8b8", "#d3bfdb", "rgb(186 159 209)", "#b4ddd3", "#d3bfdb"];
+
     const [formInputIsOpen, setformInputIsOpen] = useState(false);
     const [FormOfDeleteIsOpen, setFormOfDeleteIsOpen] = useState(false);
     const [FormOfEditeIsOpen, setFormOfEditeIsOpen] = useState(false);
@@ -32,6 +35,7 @@ function MainSection({ isGrid, searchTerm }) {
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
+        outline: "none",
         border: '2px solid yellow',
         boxShadow: 24,
         borderRadius: "5px",
@@ -99,7 +103,8 @@ function MainSection({ isGrid, searchTerm }) {
         ArrOfNotes.splice(deletedIndex, 1);
         setArrOfNotes([...ArrOfNotes]);
         localStorage.setItem("allNotes", JSON.stringify([...ArrOfNotes]));
-        setFormOfDeleteIsOpen(false)
+        setFormOfDeleteIsOpen(false);
+        setDeletedIndex(null);
 
     }
 
@@ -108,8 +113,6 @@ function MainSection({ isGrid, searchTerm }) {
     function handleModalOfDelete(index) {
         setFormOfDeleteIsOpen(true);
         setDeletedIndex(index);
-
-
     }
 
 
@@ -136,18 +139,17 @@ function MainSection({ isGrid, searchTerm }) {
     function handleSaveChanges() {
         ArrOfNotes.splice(editeIndex, 1, editeObj);
         setArrOfNotes([...ArrOfNotes]);
-        setEditeIndex(null)
+        setEditeIndex(null);
         localStorage.setItem("allNotes", JSON.stringify([...ArrOfNotes]));
         setFormOfEditeIsOpen(false);
-
     }
 
 
     function handleCloseModalOfEdite() {
         setFormOfEditeIsOpen(false);
+        setEditeIndex(null);
+
     }
-
-
 
     function handleModalColor(e, index) {
         setediteColorOfIndex(index);
@@ -172,7 +174,7 @@ function MainSection({ isGrid, searchTerm }) {
     }
 
     function handleCloseModalOfColorAssign() {
-        setColorIsOpenForAssign(false)
+        setColorIsOpenForAssign(false);
     }
     return (
         <div className="main">
@@ -181,19 +183,18 @@ function MainSection({ isGrid, searchTerm }) {
                     {
                         formInputIsOpen &&
                         <input type="text" placeholder="Title" onChange={(e) => {
-
                             handleTitle(e)
                         }
 
-                        } value={newNote.title} />
+                        } value={newNote.title} style={{ background: `${newNote.color}` }} />
                     }
                     <input type="text" placeholder="Take a note" onFocus={handleFocus} onChange={(e) => {
 
                         handleNote(e)
-                    }} value={newNote.note} />
+                    }} value={newNote.note} style={{ background: `${newNote.color}` }} />
 
                     {
-                        // form picker
+                        // form color  picker
                         formInputIsOpen &&
                         <div className="add-close-btns">
                             <IoColorPaletteOutline onClick={() => setColorIsOpenForAssign(true)} className="color-picker" />
@@ -210,10 +211,7 @@ function MainSection({ isGrid, searchTerm }) {
                         </div>
                     }
                 </form>
-
             </div>
-
-
             <div className={!isGrid ? "all-notes" : "all-notesGird"}>
                 {
                     ArrOfNotes.map((info, index) => {
@@ -222,22 +220,15 @@ function MainSection({ isGrid, searchTerm }) {
                                 <div>{info.title}</div>
                                 <div>{info.note}</div>
                             </div>
-
                             <div className="btns-delete-edite">
-
                                 <IoColorPaletteOutline onClick={(e) => handleModalColor(e, index)} className="color-picker" />
 
                                 <button onClick={(e) => { handleEditeNote(e, index, info) }}>edite</button>
                                 <button onClick={() => {
-                                    console.log(index);
                                     handleModalOfDelete(index)
                                 }}>delete</button>
-
-
                             </div>
                         </div>
-
-
                     })
                 }
 
@@ -287,7 +278,7 @@ function MainSection({ isGrid, searchTerm }) {
             >
 
                 <Box sx={style} open={ColorIsOpen}
-                className="color-picker-box"
+                    className="color-picker-box"
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description">
                     <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
@@ -327,7 +318,6 @@ function MainSection({ isGrid, searchTerm }) {
                             arrOfColor.map((col) => {
                                 return <div style={{ background: `${col}`, height: "23px", width: "23px", borderRadius: "12px", border: "2px solid yellow", cursor: "pointer" }}
                                     onClick={() => {
-                                        console.log("changepicker")
                                         setNewNote({ ...newNote, color: col })
                                     }} >
 
