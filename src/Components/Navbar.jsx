@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import "../style/navbar.css"
+import "../Style/navbar.css"
 import logo from "../assets/keepimg.jpg"
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
