@@ -3,6 +3,8 @@
 import { Box, Modal, } from "@mui/material";
 import { useEffect, useState } from "react"
 import { IoColorPaletteOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
+
 
 function MainSection({ isGrid, searchTerm }) {
     const arrOfColor = ["#e2f6d3", "#fff8b8", "#d3bfdb", "#a142f4", "#b4ddd3", "#9971ed"];
@@ -30,8 +32,10 @@ function MainSection({ isGrid, searchTerm }) {
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
+        border: '2px solid yellow',
         boxShadow: 24,
+        borderRadius: "5px",
+
         p: 4,
     };
 
@@ -59,11 +63,14 @@ function MainSection({ isGrid, searchTerm }) {
 
     function handleAddNote(e) {
         e.preventDefault();
-        if (newNote.title && newNote.note) {
+        if (newNote.title || newNote.note) {
             setArrOfNotes([newNote, ...ArrOfNotes]);
             localStorage.setItem("allNotes", JSON.stringify([newNote, ...ArrOfNotes,]));
             setNewNote({ title: "", note: "", color: "" });
             setformInputIsOpen(false);
+        }else{
+            toast.warn("Please fill title or note atleast");
+
         }
 
     }
@@ -171,7 +178,7 @@ function MainSection({ isGrid, searchTerm }) {
     { console.log(editeColorOfIndex, newNote) }
     return (
         <div className="main">
-            <div >
+            <div className="form-box">
                 <form action="" className="form" style={{ background: `${newNote.color}` }}>
                     {
                         formInputIsOpen &&
@@ -179,6 +186,7 @@ function MainSection({ isGrid, searchTerm }) {
 
                             handleTitle(e)
                         }
+
                         } value={newNote.title} />
                     }
                     <input type="text" placeholder="Take a note" onFocus={handleFocus} onChange={(e) => {
@@ -189,15 +197,14 @@ function MainSection({ isGrid, searchTerm }) {
                     {
                         // form picker
                         formInputIsOpen &&
-                        <div>
-
-                            <IoColorPaletteOutline onClick={() => setColorIsOpenForAssign(true)} />
+                        <div className="add-close-btns">
+                            <IoColorPaletteOutline onClick={() => setColorIsOpenForAssign(true)} className="color-picker" />
 
                             <button onClick={(e) => {
 
                                 handleAddNote(e);
                             }
-                            }>add note</button>
+                            } >+</button>
                             <button onClick={(e) => {
                                 handleClose(e);
                             }
@@ -212,15 +219,15 @@ function MainSection({ isGrid, searchTerm }) {
             <div className={!isGrid ? "all-notes" : "all-notesGird"}>
                 {
                     ArrOfNotes.map((info, index) => {
-                        return <div className="one-note" style={{ background: `${info.color}` }}>
-                            <div>
-                                <div>Title:{info.title}</div>
-                                <div>Note:{info.note}</div>
+                        return <div className="one-note" style={{ background: `${info.color}`, }}>
+                            <div className="title-note">
+                                <div>{info.title}</div>
+                                <div>{info.note}</div>
                             </div>
 
-                            <div>
+                            <div className="btns-delete-edite">
 
-                                <IoColorPaletteOutline onClick={(e) => handleModalColor(e, index)} />
+                                <IoColorPaletteOutline onClick={(e) => handleModalColor(e, index)} className="color-picker" />
 
                                 <button onClick={(e) => { handleEditeNote(e, index, info) }}>edite</button>
                                 <button onClick={() => {
@@ -237,7 +244,8 @@ function MainSection({ isGrid, searchTerm }) {
                 }
 
             </div>
-            {/* //deleter */}
+
+            {/* Modal for Delete permission of note */}
             <Modal
                 open={FormOfDeleteIsOpen}
                 onClose={handleCloseModalOfDelete}
@@ -245,13 +253,15 @@ function MainSection({ isGrid, searchTerm }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h1>Hello</h1>
+                    <h4 style={{ margin: "5px" }}>Are you sure ? You want to delete this note !</h4>
                     <button onClick={DeleteNote}>yes</button>
                     <button onClick={NoNeedToDeleteNote}>No</button>
 
                 </Box>
             </Modal>
-            {/* changes edite */}
+
+
+            {/* Modal for  edite note */}
             <Modal
                 open={FormOfEditeIsOpen}
                 onClose={handleCloseModalOfEdite}
@@ -269,7 +279,7 @@ function MainSection({ isGrid, searchTerm }) {
             </Modal>
 
 
-            {/* picker of each */}
+            {/* modal for edite color for each note */}
             <Modal
                 open={ColorIsOpen}
                 onClose={handleCloseModalOfColor}
@@ -298,11 +308,7 @@ function MainSection({ isGrid, searchTerm }) {
 
             </Modal>
 
-
-
-
-
-            {/* form color change */}
+            {/* Modal for Assign color to note firstTime*/}
             <Modal
                 open={ColorIsOpenForAssign}
                 onClose={handleCloseModalOfColorAssign}
@@ -316,10 +322,10 @@ function MainSection({ isGrid, searchTerm }) {
                 <Box sx={style}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description">
-                    <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
+                    <div className="color-picker-box">
                         {
                             arrOfColor.map((col) => {
-                                return <div style={{ background: `${col}`, height: "20px", width: "20px", borderRadius: "10px" }}
+                                return <div style={{ background: `${col}`, height: "23px", width: "23px", borderRadius: "12px", border: "2px solid yellow" }}
                                     onClick={() => {
                                         console.log("changepicker")
                                         setNewNote({ ...newNote, color: col })
@@ -334,9 +340,6 @@ function MainSection({ isGrid, searchTerm }) {
                 </Box>
 
             </Modal>
-
-
-
 
         </div >
     )
